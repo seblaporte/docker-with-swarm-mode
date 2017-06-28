@@ -1,0 +1,40 @@
+# Log level
+#
+# Accepted values, in order of severity: "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "PANIC"
+# Messages at and above the selected level will be logged.
+#
+logLevel = "DEBUG"
+
+defaultEntryPoints = ["http", "https"]
+
+# Entrypoints definition
+#
+# Redirect an http entrypoint to an https entrypoint
+#
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+      [entryPoints.http.redirect]
+        entryPoint = "https"
+  [entryPoints.https]
+    address = ":443"
+      [entryPoints.https.tls]
+#        [[entryPoints.https.tls.certificates]]
+#        CertFile = "/etc/traefik/certificate/cert.pem"
+#        KeyFile = "/etc/traefik/certificate/key.pem"
+
+[docker]
+  endpoint = "unix://var/run/docker.sock"
+
+[web]
+  address = ":8080"
+
+[file]
+  watch = true
+
+# Enable ACME (Let's Encrypt): automatic SSL
+#
+[acme]
+email = "laporte.0209@apside-groupe.com"
+storage = "acme.json"
+entryPoint = "https"
